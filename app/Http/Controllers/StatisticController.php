@@ -28,7 +28,7 @@ class StatisticController extends Controller
     public function store(Request $request)
     {
         $number = $request->number;
-        $quantity = $request->quantity;
+        $quantity = intval(str_replace(',', '', $request->quantity));
         $type = $request->type;
 
         $exist = Statistic::where('number', $number)
@@ -73,7 +73,7 @@ class StatisticController extends Controller
     public function update(Request $request)
     {
         $number = $request->number;
-        $quantity = $request->quantity;
+        $quantity = intval(str_replace(',', '', $request->quantity));
         $type = $request->type;
 
         $exist = Statistic::where('number', $number)

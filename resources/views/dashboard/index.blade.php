@@ -36,7 +36,7 @@
                                                     <span class="text-secondary text-xs font-weight-bold">{{$a->number}}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <span class="text-secondary text-xs font-weight-bold">{{$a->quantity}}</span>
+                                                    <span class="text-secondary text-xs font-weight-bold">{{number_format($a->quantity, 0, '.', ',')}}</span>
                                                 </td>
                                             </tr>
                                             @endif
@@ -62,7 +62,7 @@
                                                 <span class="text-secondary text-xs font-weight-bold">Total</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{$sum1}}</span>
+                                                <span class="text-secondary text-xs font-weight-bold">{{number_format($sum1, 0, '.', ',')}}</span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -74,11 +74,11 @@
                                 <div class="col-md-2"></div>
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Number</label>
-                                    <input type="number" name="number" class="number_1 form-control border border-2 p-2">
+                                    <input type="number" name="number" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" class="number_1 form-control border border-2 p-2" min="1" max="99" required>
                                 </div>                            
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Quantity</label>
-                                    <input type="text" name="quantity" class="quantity_1 form-control border border-2 p-2">
+                                    <input type="text" name="quantity" data-type="currency_1" class="quantity_1 form-control border border-2 p-2" required>
                                 </div>
                                 <div class="col-md-2"></div>
                                 <input type="number" name="type" class="form-control border border-2 p-2" value="0" hidden>
@@ -133,7 +133,7 @@
                                                     <span class="text-secondary text-xs font-weight-bold">{{$a->number}}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <span class="text-secondary text-xs font-weight-bold">{{$a->quantity}}</span>
+                                                    <span class="text-secondary text-xs font-weight-bold">{{number_format($a->quantity, 0, '.', ',')}}</span>
                                                 </td>
                                             </tr>
                                             @endif
@@ -159,7 +159,7 @@
                                                 <span class="text-secondary text-xs font-weight-bold">Total</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{$sum2}}</span>
+                                                <span class="text-secondary text-xs font-weight-bold">{{number_format($sum2, 0, '.', ',')}}</span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -171,11 +171,11 @@
                                 <div class="col-md-2"></div>
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Number</label>
-                                    <input type="number" name="number" class="number_2 form-control border border-2 p-2">
+                                    <input type="number" name="number" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" class="number_2 form-control border border-2 p-2"  min="1" max="99" required>
                                 </div>                            
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Quantity</label>
-                                    <input type="text" name="quantity" class="quantity_2 form-control border border-2 p-2">
+                                    <input type="text" name="quantity" data-type="currency_2" class="quantity_2 form-control border border-2 p-2" required>
                                 </div>
                                 <div class="col-md-2"></div>
                                 <input type="number" name="type" class="form-control border border-2 p-2" value="1" hidden>
@@ -227,6 +227,88 @@
                 $('.form1').submit();
             }
             })
+        }
+
+        $("input[data-type='currency_1']").on({
+            keyup: function() {
+                formatCurrency($(this));
+            },
+            blur: function() { 
+                formatCurrency($(this), "blur");
+            }
+        });
+
+         $("input[data-type='currency_2']").on({
+            keyup: function() {
+                formatCurrency($(this));
+            },
+            blur: function() { 
+                formatCurrency($(this), "blur");
+            }
+        });
+
+
+        function formatNumber(n) {
+        // format number 1000000 to 1,234,567
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+
+        function formatCurrency(input, blur) {
+            // appends $ to value, validates decimal side
+            // and puts cursor back in right position.
+            
+            // get input value
+            var input_val = input.val();
+            
+            // don't validate empty input
+            if (input_val === "") { return; }
+            
+            // original length
+            var original_len = input_val.length;
+
+            // initial caret position 
+            var caret_pos = input.prop("selectionStart");
+                
+            // check for decimal
+            if (input_val.indexOf(".") >= 0) {
+                            
+                // get position of first decimal
+                // this prevents multiple decimals from
+                // being entered
+                var decimal_pos = input_val.indexOf(".");
+
+                // split number by decimal point
+                var left_side = input_val.substring(0, decimal_pos);
+                var right_side = input_val.substring(decimal_pos);
+
+                // add commas to left side of number
+                left_side = formatNumber(left_side);
+
+                // validate right side
+                right_side = formatNumber(right_side);
+                
+                // On blur make sure 2 numbers after decimal
+                
+                // Limit decimal to only 2 digits
+                right_side = right_side.substring(0, 2);
+
+                // join number by .
+                input_val = left_side + "." + right_side;
+
+            } else {
+                // no decimal entered
+                // add commas to number
+                // remove all non-digits
+                input_val = formatNumber(input_val);
+                input_val = input_val;
+            }
+            // send updated string to input
+            input.val(input_val);
+
+            // put caret back in the right position
+            var updated_len = input_val.length;
+            caret_pos = updated_len - original_len + caret_pos;
+            input[0].setSelectionRange(caret_pos, caret_pos);
         }
     </script>
     @endpush
