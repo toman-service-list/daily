@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12">
                     <!-- Navbar -->
-                    <x-navbars.navs.guest signin='login' signup='register'></x-navbars.navs.guest>
+                    <!-- <x-navbars.navs.guest signin='login' signup='register'></x-navbars.navs.guest> -->
                     <!-- End Navbar -->
                 </div>
             </div>
@@ -57,14 +57,14 @@
                                         @endif
                                         <div class="input-group input-group-outline mt-3">
                                             <label class="form-label">Email</label>
-                                            <input type="email" class="form-control" name="email" value="{{ 'admin@gmail.com' }}">
+                                            <input type="email" class="form-control" name="email" value="">
                                         </div>
                                         @error('email')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                         @enderror
                                         <div class="input-group input-group-outline mt-3">
                                             <label class="form-label">Password</label>
-                                            <input type="password" class="form-control" name="password" value='{{ 'secret'}}'>
+                                            <input type="password" class="form-control" name="password" value=''>
                                         </div>
                                         @error('password')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
@@ -78,7 +78,7 @@
                                             <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign
                                                 in</button>
                                         </div>
-                                        <p class="mt-4 text-sm text-center">
+                                        <!-- <p class="mt-4 text-sm text-center">
                                             Don't have an account?
                                             <a href="{{ route('register') }}"
                                                 class="text-primary text-gradient font-weight-bold">Sign up</a>
@@ -87,7 +87,7 @@
                                             Forgot your password? Reset your password
                                             <a href="{{ route('verify') }}"
                                                 class="text-primary text-gradient font-weight-bold">here</a>
-                                        </p>
+                                        </p> -->
                                     </form>
                                 </div>
                             </div>
