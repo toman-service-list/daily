@@ -33,7 +33,7 @@
                                             @if ($a->type == 0)
                                             <tr>
                                                 <td class="align-middle text-center">
-                                                    <span class="text-secondary text-xs font-weight-bold">{{$a->number}}</span>
+                                                    <span class="text-secondary text-xs font-weight-bold">{{str_pad($a->number, 2, "0", STR_PAD_LEFT)}}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span class="text-secondary text-xs font-weight-bold">{{number_format($a->quantity, 0, '.', ',')}}</span>
@@ -74,7 +74,7 @@
                                 <div class="col-md-2"></div>
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Number</label>
-                                    <input type="number" name="number" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" class="number_1 form-control border border-2 p-2" min="1" max="99" required>
+                                    <input type="number" name="number" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" class="number_1 form-control border border-2 p-2" min="00" max="99" required>
                                 </div>                            
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Quantity</label>
@@ -130,7 +130,7 @@
                                             @if ($a->type == 1)
                                             <tr>
                                                 <td class="align-middle text-center">
-                                                    <span class="text-secondary text-xs font-weight-bold">{{$a->number}}</span>
+                                                    <span class="text-secondary text-xs font-weight-bold">{{str_pad($a->number, 2, "0", STR_PAD_LEFT)}}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span class="text-secondary text-xs font-weight-bold">{{number_format($a->quantity, 0, '.', ',')}}</span>
@@ -171,7 +171,7 @@
                                 <div class="col-md-2"></div>
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Number</label>
-                                    <input type="number" name="number" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" class="number_2 form-control border border-2 p-2"  min="1" max="99" required>
+                                    <input type="number" name="number" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" class="number_2 form-control border border-2 p-2"  min="00" max="99" required>
                                 </div>                            
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label">Quantity</label>
